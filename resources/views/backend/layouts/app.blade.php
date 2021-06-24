@@ -26,12 +26,12 @@
         <div class="app-main">
             @include('backend.layouts.sidebar')
             <div class="app-main__outer">
-               @yield('content')
+                @yield('content')
                 <div class="app-wrapper-footer">
                     <div class="app-footer">
                         <div class="app-footer__inner">
                             <div class="app-footer-left">
-                               <span>Copyright {{date('Y')}} , All right served by Magic Pay</span>
+                                <span>Copyright {{ date('Y') }} , All right served by Magic Pay</span>
                             </div>
                             <div class="app-footer-right">
                                 <span>Developed By Hlaing Moh Moh Shein</span>
@@ -44,19 +44,43 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js
-    "></script>
+                    "></script>
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js
-    "></script>
+                    "></script>
 
     <script src="{{ asset('backend/js/main.js') }}"></script>
     <!-- Laravel Javascript Validation -->
-<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+    <script src="{{ asset('backend/js/jsvalidation.js') }}"></script>
+    <!-- SweetAlert2 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $(document).ready(function(){
-            $('.back-btn').on('click',function(){
+        $(document).ready(function() {
+
+            $('.back-btn').on('click', function() {
                 window.history.go(-1);
                 return false;
             });
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            @if (session('create'))
+            Toast.fire({
+                icon: 'success',
+                title: "{{session('create')}}"
+            })
+            @endif
+
+
+
         });
     </script>
     @yield('scripts')

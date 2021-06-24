@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\AdminUser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAdminUser;
+use Dotenv\Result\Result;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
@@ -25,7 +26,13 @@ class AdminUserController extends Controller
     public function ssd(){
         // return "Hello";
         $data=AdminUser::query();
-        return DataTables::of($data)->make(true);
+        return DataTables::of($data)
+        ->addColumn('action',function($each){
+            $edit_column = '<a href="" class="text-warning"><i class="fas fa-edit"></i></a>';
+            $delete_column = '<a href="" class="text-danger"><i class="fas fa-trash-alt"></i></a>';
+            return '<div class="action-icon">'.$edit_column . $delete_column.'</div>';
+        })
+        ->make(true);
 
     }
 
@@ -48,6 +55,7 @@ class AdminUserController extends Controller
      */
     public function store(StoreAdminUser $request)
     {
+
         $admin_user=new AdminUser();
         $admin_user->name=$request->name;
         $admin_user->email=$request->email;

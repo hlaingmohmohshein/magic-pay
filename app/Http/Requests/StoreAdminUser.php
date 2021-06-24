@@ -23,10 +23,11 @@ class StoreAdminUser extends FormRequest
      */
     public function rules()
     {
+        // return $request->all();
         return [
             'name'=>'required',
-            'email'=>'required|email|unique:admin_user,email',
-            'phone'=>'required|phone|unique:admin_user,phone',
+            'email'=>'required|email|unique:admin_users,email',
+            'phone'=>'required|unique:admin_users,phone',
             'password'=>'required|min:6|max:20',
         ];
     }

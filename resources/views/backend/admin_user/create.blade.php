@@ -43,7 +43,7 @@
                     </div>
                     <div class="d-flex justify-content-center">
                         <button class="btn btn-secondary mr-2 back-btn">Cancel</button>
-                        <button type="submit" class="btn btn-success ">Confirm</button>
+                        <button type="submit" class="btn btn-success">Confirm</button>
                     </div>
                 </form>
 
@@ -54,7 +54,6 @@
 
 @endsection
 @section('scripts')
-{!! JsValidator::formRequest('App\Http\Requests\StoreAdminUser','#create') !!}
 <script>
     $(document).ready(function() {
         $('.Datatable').DataTable({
