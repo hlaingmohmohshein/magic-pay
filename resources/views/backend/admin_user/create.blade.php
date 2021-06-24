@@ -23,7 +23,7 @@
     <div class="content pt-3">
         <div class="card">
             <div class="card-body">
-                <form action="{{route('admin.admin-user.store')}}" method="POST">
+                <form action="{{route('admin.admin-user.store')}}" method="POST" id="create">
                     @csrf
                     <div class="form-group">
                         <label for="name">Name</label>
@@ -54,6 +54,7 @@
 
 @endsection
 @section('scripts')
+{!! JsValidator::formRequest('App\Http\Requests\StoreAdminUser','#create') !!}
 <script>
     $(document).ready(function() {
         $('.Datatable').DataTable({

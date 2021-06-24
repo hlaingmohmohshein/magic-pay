@@ -49,6 +49,8 @@
     "></script>
 
     <script src="{{ asset('backend/js/main.js') }}"></script>
+    <!-- Laravel Javascript Validation -->
+<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
     <script>
         $(document).ready(function(){
             $('.back-btn').on('click',function(){
