@@ -54,6 +54,7 @@
 
 @endsection
 @section('scripts')
+ {!! JsValidator::formRequest('App\Http\Requests\StoreAdminUser','#create') !!}
 <script>
     $(document).ready(function() {
         $('.Datatable').DataTable({

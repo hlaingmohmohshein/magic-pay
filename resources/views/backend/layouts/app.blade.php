@@ -50,9 +50,13 @@
 
     <script src="{{ asset('backend/js/main.js') }}"></script>
     <!-- Laravel Javascript Validation -->
+
     <script src="{{ asset('backend/js/jsvalidation.js') }}"></script>
     <!-- SweetAlert2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script type="text/javascript" src="{{ url('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+
     <script>
         $(document).ready(function() {
 
