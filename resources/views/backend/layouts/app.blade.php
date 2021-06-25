@@ -11,6 +11,7 @@
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
     <meta name="description" content="This is an example dashboard created using build-in elements and components.">
     <meta name="msapplication-tap-highlight" content="no">
+    <meta name="csrf-token" content="{{csrf_token()}}">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -50,13 +51,9 @@
 
     <script src="{{ asset('backend/js/main.js') }}"></script>
     <!-- Laravel Javascript Validation -->
-
-    <script src="{{ asset('backend/js/jsvalidation.js') }}"></script>
+    <script type="text/javascript" src="{{ url('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
     <!-- SweetAlert2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script type="text/javascript" src="{{ url('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
-
     <script>
         $(document).ready(function() {
 
@@ -80,6 +77,12 @@
             Toast.fire({
                 icon: 'success',
                 title: "{{session('create')}}"
+            })
+            @endif
+            @if (session('update'))
+            Toast.fire({
+                icon: 'success',
+                title: "{{session('update')}}"
             })
             @endif
 

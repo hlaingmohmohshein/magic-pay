@@ -1,4 +1,4 @@
-<H1>Hello</H1>
+
 @if (count($errors))
     @foreach ($errors->all() as $error)
         <div class="alert alert-danger alert-dismissible fade show" role="alert">

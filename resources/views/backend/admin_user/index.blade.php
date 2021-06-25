@@ -32,6 +32,8 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Phone</th>
+                            <th>IP</th>
+                            <th>User Agent</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -53,7 +55,15 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
-        $('.Datatable').DataTable({
+        let token=document.head.querySelector('meta[name="csrf-token"]');
+        if(token){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF_TOKEN' : token.content
+                }
+            });
+        }
+       var table= $('.Datatable').DataTable({
             "processing": true,
             "serverSide": true,
             "ajax": "/admin/admin-user/datatable/ssd",
@@ -70,11 +80,43 @@
                     name: "phone"
                 },
                 {
+                    data: "ip",
+                    name: "ip"
+                },
+                {
+                    data: "user_agent",
+                    name: "user_agent"
+                },
+                {
                     data: "action",
                     name: "action"
                 }
+
             ]
         });
+        $(document).on('click','.delete',function(e){
+            e.preventDefault();
+            var id = $(this).data('id');
+
+            alert(id);
+            Swal.fire({
+            title: 'Are you sure want to Delete?',
+            showCancelButton: true,
+            confirmButtonText: `Confirm`,
+            }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                $.ajax({
+                    url:'/admin/admin-user/'+id,
+                    type:'DELETE',
+                    success:function(){
+                            table.ajax.reload();
+                    }
+                });
+            }
+            })
+        });
+
     });
 </script>
 @endsection
