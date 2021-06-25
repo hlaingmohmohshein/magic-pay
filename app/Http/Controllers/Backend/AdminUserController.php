@@ -6,11 +6,15 @@ use App\AdminUser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAdminUser;
 use App\Http\Requests\UpdateAdminUser;
+use Carbon\Carbon;
 use Dotenv\Result\Result;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 
+use Jenssegers\Agent\Agent;
+
+$agent = new Agent();
 class AdminUserController extends Controller
 {
     /**
@@ -28,12 +32,35 @@ class AdminUserController extends Controller
         // return "Hello";
         $data=AdminUser::query();
         return DataTables::of($data)
+        ->editColumn('created_at',function($each){
+            return Carbon::parse($each->create_at)->format('Y-m-d H-i-s');
+        })->editColumn('updated_at',function($each){
+            return Carbon::parse($each->create_at)->format('Y-m-d H-i-s');
+        })
+        ->editColumn('user_agent', function($each) {
+            if($each->user_agent){
+                $agent = new Agent();
+                $agent -> setUserAgent($each->user_agent);
+                $device = $agent->device();
+                $platform = $agent->platform();
+                $browser = $agent->browser();
+                
+                return '<table class="table table-bordered">
+                <tr><td>Devices</td><td>'.$device.'</td></tr>
+                <tr><td>Platform</td><td>'.$platform.'</td></tr>
+                <tr><td>Browser</td><td>'.$browser.'</td></tr>
+                </table>';
+            }
+            return '-';
+            
+        })
         ->addColumn('action',function($each){
             $edit_column = '<a href="'.route('admin.admin-user.edit',$each->id).' " class="text-warning"><i class="fas fa-edit"></i></a>';
             $delete_column = '<a href="#" class="text-danger delete " data-id="'. $each->id .'"><i class="fas fa-trash-alt"></i></a>';
             // return '<div class="action-icon">'. . $delete_column.'</div>';
             return '<div class="action-icon">'.$edit_column .$delete_column .'</div>';
         })
+        ->rawColumns(['user_agent','action'])
         ->make(true);
 
     }

@@ -54,8 +54,7 @@
 
 @endsection
 @section('scripts')
-{{-- {!! JsValidator::formRequest('App\Http\Requests\StoreAdminUser','#create') !!} --}}
-
+{!! JsValidator::formRequest('App\Http\Requests\UpdateAdminUser','#create') !!}
 <script>
     $(document).ready(function() {
         $('.Datatable').DataTable({

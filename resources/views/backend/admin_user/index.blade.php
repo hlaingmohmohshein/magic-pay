@@ -34,6 +34,8 @@
                             <th>Phone</th>
                             <th>IP</th>
                             <th>User Agent</th>
+                            <th>Created At</th>
+                            <th>Updated Up</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -64,12 +66,14 @@
             });
         }
        var table= $('.Datatable').DataTable({
+            
             "processing": true,
             "serverSide": true,
             "ajax": "/admin/admin-user/datatable/ssd",
             "columns": [{
                     data: "name",
-                    name: "name"
+                    name: "name",
+
                 },
                 {
                     data: "email",
@@ -85,14 +89,28 @@
                 },
                 {
                     data: "user_agent",
-                    name: "user_agent"
+                    name: "user_agent",
+                    sortable:false
+                },
+                {
+                    data: "created_at",
+                    name: "created_at",
+                    sortable:false
+                },
+                {
+                    data: "updated_at",
+                    name: "updated_at",
+                    sortable:false
                 },
                 {
                     data: "action",
-                    name: "action"
+                    name: "action",
+                    sortable:false,
+                    // searchable:false
                 }
 
-            ]
+            ],
+            "order": [[ 6, "desc" ]],
         });
         $(document).on('click','.delete',function(e){
             e.preventDefault();

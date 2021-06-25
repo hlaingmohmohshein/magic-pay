@@ -55,7 +55,7 @@
 
 @endsection
 @section('scripts')
-{{-- {!! JsValidator::formRequest('App\Http\Requests\StoreAdminUser','#update') !!} --}}
+{!! JsValidator::formRequest('App\Http\Requests\UpdateAdminUser','#update') !!}
 
 <script>
     $(document).ready(function() {
