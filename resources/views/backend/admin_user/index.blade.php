@@ -21,7 +21,8 @@
     </div>
 
     <div class="py-3">
-        <a href="{{route('admin.admin-user.create')}}" class="btn btn-primary"><i class="fas fa-plus-circle"> Create Admin User</i></a>
+        <a href="{{ route('admin.admin-user.create') }}" class="btn btn-primary"><i class="fas fa-plus-circle"> Create
+                Admin User</i></a>
     </div>
     <div class="content">
         <div class="card">
@@ -52,21 +53,20 @@
         </div>
     </div>
 </div>
-
 @endsection
 @section('scripts')
 <script>
     $(document).ready(function() {
-        let token=document.head.querySelector('meta[name="csrf-token"]');
-        if(token){
+        let token = document.head.querySelector('meta[name="csrf-token"]');
+        if (token) {
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF_TOKEN' : token.content
+                    'X-CSRF_TOKEN': token.content
                 }
             });
         }
-       var table= $('.Datatable').DataTable({
-            
+        var table = $('.Datatable').DataTable({
+
             "processing": true,
             "serverSide": true,
             "ajax": "/admin/admin-user/datatable/ssd",
@@ -90,48 +90,50 @@
                 {
                     data: "user_agent",
                     name: "user_agent",
-                    sortable:false
+                    sortable: false
                 },
                 {
                     data: "created_at",
                     name: "created_at",
-                    sortable:false
+                    sortable: false
                 },
                 {
                     data: "updated_at",
                     name: "updated_at",
-                    sortable:false
+                    sortable: false
                 },
                 {
                     data: "action",
                     name: "action",
-                    sortable:false,
+                    sortable: false,
                     // searchable:false
                 }
 
             ],
-            "order": [[ 6, "desc" ]],
+            "order": [
+                [6, "desc"]
+            ],
         });
-        $(document).on('click','.delete',function(e){
+        $(document).on('click', '.delete', function(e) {
             e.preventDefault();
             var id = $(this).data('id');
 
             alert(id);
             Swal.fire({
-            title: 'Are you sure want to Delete?',
-            showCancelButton: true,
-            confirmButtonText: `Confirm`,
+                title: 'Are you sure want to Delete?',
+                showCancelButton: true,
+                confirmButtonText: `Confirm`,
             }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                $.ajax({
-                    url:'/admin/admin-user/'+id,
-                    type:'DELETE',
-                    success:function(){
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/admin/admin-user/' + id,
+                        type: 'DELETE',
+                        success: function() {
                             table.ajax.reload();
-                    }
-                });
-            }
+                        }
+                    });
+                }
             })
         });
 
