@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
-@section('admin-user-active', 'mm-active')
-@section('title', 'Admin User')
+@section('user-active', 'mm-active')
+@section('title', 'User')
 @section('content')
 @section('extra-css')
 
@@ -14,14 +14,14 @@
                     <i class="pe-7s-users icon-gradient bg-mean-fruit">
                     </i>
                 </div>
-                <div> Admin User
+                <div>  User
                 </div>
             </div>
         </div>
     </div>
 
     <div class="py-3">
-        <a href="{{route('admin.admin-user.create')}}" class="btn btn-primary"><i class="fas fa-plus-circle"> Create Admin User</i></a>
+        <a href="{{route('admin.user.create')}}" class="btn btn-primary"><i class="fas fa-plus-circle"> Create User</i></a>
     </div>
     <div class="content">
         <div class="card">
@@ -34,8 +34,9 @@
                             <th>Phone</th>
                             <th>IP</th>
                             <th>User Agent</th>
+                            <th>Login At</th>
                             <th>Created At</th>
-                            <th>Updated Up</th>
+                            <th>Updated At</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -69,7 +70,7 @@
             
             "processing": true,
             "serverSide": true,
-            "ajax": "/admin/admin-user/datatable/ssd",
+            "ajax": "/admin/user/datatable/ssd",
            
             "columns": [{
                     data: "name",
@@ -91,6 +92,11 @@
                 {
                     data: "user_agent",
                     name: "user_agent",
+                    sortable:false
+                },
+                {
+                    data: "login_at",
+                    name: "login_at",
                     sortable:false
                 },
                 {
@@ -127,7 +133,7 @@
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 $.ajax({
-                    url:'/admin/admin-user/'+id,
+                    url:'/admin/user/'+id,
                     type:'DELETE',
                     success:function(){
                             table.ajax.reload();

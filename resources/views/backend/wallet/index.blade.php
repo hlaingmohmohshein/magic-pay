@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
-@section('admin-user-active', 'mm-active')
-@section('title', 'Admin User')
+@section('wallet-active', 'mm-active')
+@section('title', 'User')
 @section('content')
 @section('extra-css')
 
@@ -11,32 +11,27 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-users icon-gradient bg-mean-fruit">
+                    <i class="pe-7s-wallet icon-gradient bg-mean-fruit">
                     </i>
                 </div>
-                <div> Admin User
+                <div>  Wallet
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="py-3">
-        <a href="{{route('admin.admin-user.create')}}" class="btn btn-primary"><i class="fas fa-plus-circle"> Create Admin User</i></a>
-    </div>
+    
     <div class="content">
         <div class="card">
             <div class="card-body">
                 <table class="table table-border Datatable">
                     <thead>
                         <tr class="bg-light">
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>IP</th>
-                            <th>User Agent</th>
+                            <th>Account Number</th>
+                            <th>Account Person</th>
+                            <th>Amount</th>
                             <th>Created At</th>
-                            <th>Updated Up</th>
-                            <th>Action</th>
+                            <th>Updated At</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,29 +64,20 @@
             
             "processing": true,
             "serverSide": true,
-            "ajax": "/admin/admin-user/datatable/ssd",
+            "ajax": "/admin/wallet/database/ssd",
            
             "columns": [{
-                    data: "name",
-                    name: "name",
+                    data: "account_number",
+                    name: "account_number",
 
                 },
                 {
-                    data: "email",
-                    name: "email"
+                    data: "account_person",
+                    name: "account_person"
                 },
                 {
-                    data: "phone",
-                    name: "phone"
-                },
-                {
-                    data: "ip",
-                    name: "ip"
-                },
-                {
-                    data: "user_agent",
-                    name: "user_agent",
-                    sortable:false
+                    data: "amount",
+                    name: "amount"
                 },
                 {
                     data: "created_at",
@@ -102,16 +88,10 @@
                     data: "updated_at",
                     name: "updated_at",
                     
-                },
-                {
-                    data: "action",
-                    name: "action",
-                    sortable:false,
-                    // searchable:false
                 }
 
             ],
-            "order": [[ 6, "desc" ]]
+            "order": [[4, "desc" ]]
             
         });
         $(document).on('click','.delete',function(e){
@@ -127,7 +107,7 @@
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 $.ajax({
-                    url:'/admin/admin-user/'+id,
+                    url:'/admin/user/'+id,
                     type:'DELETE',
                     success:function(){
                             table.ajax.reload();
