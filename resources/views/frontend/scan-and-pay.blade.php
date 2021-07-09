@@ -55,7 +55,11 @@
                 if(result){
                     qrScanner.stop();
                     $('#scanModal').modal('hide');
+
+                    var to_phone=result;
+                    window.location.replace(`scan-and-pay-from?=${to_phone}`);
                 }
+                console.log(result);
             });
 
             $('#scanModal').on('show.bs.modal', function(event) {

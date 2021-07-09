@@ -218,5 +218,10 @@ class PageController extends Controller
         $authUser=Auth::guard('web')->user();
         return view('frontend.scan-and-pay',compact('authUser'));
     }
+    public function payForm(Request $request){
+        return $request->all();
+        $authUser=Auth::guard('web')->user();
+        return view('frontend.scan-and-pay',compact('authUser'));
+    }
 
 }

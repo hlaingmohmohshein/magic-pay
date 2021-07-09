@@ -41,4 +41,5 @@ Route::middleware('auth')->namespace('Frontend')->group(function(){
     Route::get('/transfer-hash','PageController@transactionHash');
     Route::get('/receive-qr','PageController@receiveQR');
     Route::get('/scan-and-pay','PageController@scanNPay');
+    Route::get('/scan-and-pay-form','PageController@payForm');
 });
