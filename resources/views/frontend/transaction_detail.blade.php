@@ -7,14 +7,7 @@
                     <div class="text-center mb-3">
                         <img src="{{asset('img/checked.png')}}" alt="">
                     </div>
-                    @if(session('transfer_success'))
-                    <div class="alert alert-success text-center fade show" role="alert">
-                        {{session('transfer_success')}}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                    @endif
+                    @include('frontend.layouts.flash')
                         <h6 class=" text-center  @if ($transaction->type==1)
                             text-scssess @elseif($transaction->type==2)text-danger
                             @endif">{{ number_format($transaction->amount)}} MMK
@@ -54,12 +47,12 @@
                 <div class="d-flex justify-content-between p-2">
                     <p class="mb-0">
                         @if ($transaction->type==1)
-                        <span class="mb-0 text-muted">To</span>
-                        @elseif($transaction->type==2)
                         <span class="mb-0 text-muted">From</span>
+                        @elseif($transaction->type==2)
+                        <span class="mb-0 text-muted">To</span>
                         @endif
                     </p>
-                    <p class="mb-0">{{$transaction->source->name}}</p>
+                    <p class="mb-0">{{$transaction->source ? $transaction->source->name : '-'}}</p>
                 </div>
                 <hr>
                 <div class="d-flex justify-content-between p-2">

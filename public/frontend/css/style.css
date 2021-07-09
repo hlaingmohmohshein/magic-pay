@@ -182,7 +182,7 @@ a:hover {
 /*------------------------------ update-password --------------------------------- */
 
 .update-password img {
-    width: 200px;
+    width: 220px;
 }
 
 
@@ -199,7 +199,7 @@ a:hover {
     background-color: #EDEDF5;
     align-items: center;
     display: flex !important;
-    bottom: 70px;
+    bottom: 50px;
     justify-content: center;
     margin: 0 auto;
 }

@@ -10,6 +10,6 @@ class Transaction extends Model
        return $this->belongsTo(User::class,'user_id','id');
     }
     public function source(){
-       return $this->belongsTo(User::class,'user_id','id');
+       return $this->belongsTo(User::class,'source_id','id');
     }
 }

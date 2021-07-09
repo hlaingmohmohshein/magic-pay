@@ -29,7 +29,7 @@
                 </span>
                 @enderror
             </div>
-            <button type="submit" class=" btn btn-theme   btn-block"> Update Password</button>
+            <button type="submit" class=" btn btn-theme mt-4   btn-block"> Update Password</button>
         </form>
         </div>
     </div>

@@ -37,33 +37,59 @@ class PageController extends Controller
         }
         return back()->withErrors(['old_password'=>'The old password is  incorrect.Please, Try Again!'])->withInput();
     }
+
     public function wallet(){
         $authUser=Auth::guard('web')->user();
         return view('frontend.wallet',compact('authUser'));
     }
+
     public function transfer(){
         $authUser=Auth::guard('web')->user();
         return view('frontend.transfer',compact('authUser'));
     }
+
     public function transferConfirm(TransferValidate $request){
         $authUser=Auth::guard('web')->user();
-        if($authUser->phone == $request->to_phone){
+        $from_account=$authUser;
+        $to_phone=$request->to_phone;
+        $amount=$request->amount;
+        $description=$request->description;
+        $hash_value=$request->hash_value;
+        $str=$request->to_phone.$request->amount.$request->description;
+        $hash_value2=hash_hmac('sha256',$str,'htetwaiyanismythefirstdogidontlikethatdogmanner123!@#');
+        // return $request->hash_value .'<br>'.$hash_value2;
+        if($hash_value !== $hash_value2){
+            return back()->with('invalid_data','Invalid Data');
+        }
+
+        if($authUser->phone == $to_phone){
                 return back()->withErrors(['to_phone'=>'Oops!, cannot transfer to yourself.'])->withInput();
         }
-        $to_account= User::where('phone',$request->to_phone)->first();
+        $to_account= User::where('phone',$to_phone)->first();
         if(!$to_account){
             return back()->withErrors(['to_phone'=>'Sorry, your destination number is invalid.'])->withInput();
         }
-        if($request->amount < 1000){
+        if($amount <= 1000){
             return back()->withErrors(['amount'=>'Transaction Amount Must Be Grater Than 1000'])->withInput();
         }
-        $from_account=$authUser;
-        $amount=$request->amount;
-        $description=$request->description;
-;
-        return view('frontend.transfer_confirm',compact('from_account','to_account','amount','description'));
+        if($from_account->wallet->amount <= $amount){
+            return back()->withErrors(['amount'=>'Your amount is not ENOUGH !'])->withInput();
+        }
+
+        return view('frontend.transfer_confirm',compact('from_account','to_account','amount','description','hash_value'));
     }
+
     public function transferComplete(Request $request){
+        $str=$request->to_phone.$request->amount.$request->description;
+
+        $hash_value2=hash_hmac('sha256',$str,'htetwaiyanismythefirstdogidontlikethatdogmanner123!@#');
+        // return $request->hash_value ."R The Same".$hash_value2;
+
+
+
+        if($request->hash_value !== $hash_value2){
+            return back()->with('invalid_data','Invalid Data');
+ }
         if($request->amount < 1000){
             return back()->withErrors(['amount'=>'Transaction Amount Must Be Grater Than 1000'])->withInput();
         }
@@ -83,6 +109,7 @@ class PageController extends Controller
         }
         DB::beginTransaction();
         try {
+
             $from_account_wallet=$from_account->wallet;
             $from_account_wallet->decrement('amount',$amount);
             $from_account_wallet->update();
@@ -100,6 +127,7 @@ class PageController extends Controller
             $from_account_transaction->source_id=$to_account->id;
             $from_account_transaction->description=$description;
             $from_account_transaction->save();
+
 
             $to_account_transaction=new Transaction();
             $to_account_transaction->user_id=$to_account->id;
@@ -153,15 +181,42 @@ class PageController extends Controller
         }
     }
 
-    public function transaction(){
+    public function transaction(Request $request){
         $authUser=Auth::guard('web')->user();
-        $transactions=Transaction::with('user','source')->orderBy('created_at','DESC')->where('user_id',$authUser->id)->paginate(5);
+        $transactions=Transaction::with('user','source')->orderBy('created_at','DESC')->where('user_id',$authUser->id);
+        if ($request->type) {
+            $transactions=$transactions->where('type',$request->type);
+        }
+        if ($request->date) {
+            $transactions=$transactions->whereDate('created_at',$request->date);
+        }
+        $transactions=$transactions->paginate(5);
         return view('frontend.transaction',compact('transactions'));
     }
+
     public function transactionDetail($trx_id){
         $authUser=Auth::guard('web')->user();
         $transaction=Transaction::with('user','source')->where('user_id',$authUser->id)->where('trx_id',$trx_id)->first();
         return view('frontend.transaction_detail',compact('transaction'));
+    }
+
+    public function transactionHash(Request $request){
+        // return $request->all();
+        $str=$request->to_phone.$request->amount.$request->description;
+        $hash_value= hash_hmac('sha256', $str,'htetwaiyanismythefirstdogidontlikethatdogmanner123!@#');
+        return response()->json([
+            'status'=>'success',
+            'data'=>$hash_value
+        ]);
+
+    }
+    public function receiveQR(){
+        $authUser=Auth::guard('web')->user();
+        return view('frontend.recieve-qr',compact('authUser'));
+    }
+    public function scanNPay(){
+        $authUser=Auth::guard('web')->user();
+        return view('frontend.scan-and-pay',compact('authUser'));
     }
 
 }

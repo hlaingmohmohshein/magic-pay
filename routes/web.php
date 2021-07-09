@@ -22,6 +22,9 @@ Route::post('admin/logout','Auth\AdminLoginController@logout')->name('admin.logo
 
 //User Auth
 Auth::routes();
+Route::get('/datepicker',function(){
+return view('frontend.layouts.script');
+});
 Route::middleware('auth')->namespace('Frontend')->group(function(){
     Route::get('/','PageController@home')->name('home');
     Route::get('/profile','PageController@profile')->name('profile');
@@ -29,10 +32,13 @@ Route::middleware('auth')->namespace('Frontend')->group(function(){
     Route::post('/update-password','PageController@updatePasswordStore')->name('update-password.store');
     Route::get('/wallet','PageController@wallet')->name('wallet');
     Route::get('/transfer','PageController@transfer');
-    Route::post('/transfer/confirm','PageController@transferConfirm');
+    Route::get('/transfer/confirm','PageController@transferConfirm');
     Route::post('/transfer/complete','PageController@transferComplete');
     Route::get('/to-account-verify','PageController@toAccountVerify');
     Route::get('/to-account-verify/password-check','PageController@PasswordCheck');
     Route::get('/transaction','PageController@transaction');
     Route::get('/transaction/{trx_id}','PageController@transactionDetail');
+    Route::get('/transfer-hash','PageController@transactionHash');
+    Route::get('/receive-qr','PageController@receiveQR');
+    Route::get('/scan-and-pay','PageController@scanNPay');
 });

@@ -1,16 +1,19 @@
 @extends('frontend.layouts.app')
-@section('title', 'Transfer')
+@section('title', 'Transfer Confirm')
 @section('content')
     <div class="transfer">
         {{-- @if (Session->('fail'))
 {{session('fail')}}
         @endif --}}
-        {{-- @include('frontend.layouts.flash') --}}
+
 
         <div class="card ">
+
             <div class="card-body">
+                @include('frontend.layouts.flash')
                 <form action="{{ url('transfer/complete') }}" method="POST" id="form">
                     @csrf
+                    <input type="hidden" name="hash_value" value="{{ $hash_value }}" >
                     <input type="hidden" name="description" value="{{ $description }}">
                     <input type="hidden" name="amount" value="{{ $amount }}">
                     <input type="hidden" name="to_phone" value="{{ $to_account->phone }}">
@@ -48,7 +51,7 @@
                 Swal.fire({
                     title: '<strong>Please Fill Your Password</strong>',
                     icon: 'info',
-                    html: '<input type="password" class="form-control text-center password"></input>',
+                    html: '<input type="password" class="form-control text-center password " autofocus></input>',
                     reverseButtons: true,
                     showCancelButton: true,
                     focusConfirm: false,
